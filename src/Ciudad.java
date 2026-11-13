@@ -138,4 +138,59 @@ public class Ciudad {
 
         return contador;
     }
+
+    public void informeGeneral(Sector[][] matriz){
+        int tramps = calcularContenido(matriz, "Trampa"), tesoros = calcularContenido(matriz, "Tesoro"),
+                cLibres = calcularContenido(matriz, "Libre");
+
+        System.out.println("La cantidad de trampas en la ciudad es " + tramps);
+        System.out.println("La cantidad de tesoros en la ciudad es " + tesoros);
+        System.out.println("La cantidad de celdas libres en la ciudad es " + cLibres);
+        System.out.println("La cantidad de paredes en la ciudad es " + ((matriz.length * matriz.length) -
+                (tesoros + tramps + cLibres + 1)));
+    }
+
+    public void cambioCelda(Sector[][] matriz, int i, int j, String contNuevo){
+        System.out.println();
+        System.out.println("El contenido de la celda numero " + matriz[i][j].getIdentificador() + ", pasa de " +
+                matriz[i][j].getContenido() + " a " + contNuevo);
+        matriz[i][j].setContenido(contNuevo);
+    }
+
+    public void recorrerCiudad(Sector[][] mat){
+        for (int i = 0; i < mat.length; i++){
+            for (int j = 0; j < mat[i].length; j++){
+                System.out.printf("%10s", mat[i][j].getContenido());
+            }
+            System.out.println();
+        }
+    }
+
+    public void filaYColumnaMayorTesoro(Sector[][] mat){
+        int min1 = 0, min2 = 0, max1 = 0, max2 = 0, indF = -1, indC = -1;
+
+        for (int i = 0; i < mat.length; i++){
+            for (int j = 0; j < mat[i].length; j++){
+                if ((mat[i][j].getContenido()) != null && (mat[i][j].getContenido()).equalsIgnoreCase("Tesoro")){
+                    max1++;
+                }
+                if ((mat[j][i].getContenido()) != null && (mat[j][i].getContenido()).equalsIgnoreCase("Tesoro")){
+                    max2++;
+                }
+                if (max2 > min2){
+                    min2 = max2;
+                    indC = j;
+                }
+            }
+            if (max1 > min1){
+                min1 = max1;
+                indF = i;
+            }
+            max1 = 0;
+            max2 = 0;
+        }
+
+        System.out.println("La fila con mayor cantidad de tesoros es la " + indF + " con " + min1 + " tesoros");
+        System.out.println("La columna con mayor cantidad de tesoros es la " + indC + " con " + min2 + " tesoros");
+    }
 }
