@@ -35,7 +35,7 @@ public class Expedicion {
         return this.puntaje;
     }
 
-    public long getTiempoEjecucion() {
-        return this.tiempoEjecucion;
+    public long getTiempoNanos() {
+        return this.tiempoNanos;
     }
 }

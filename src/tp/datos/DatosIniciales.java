@@ -1,6 +1,8 @@
 package tp.datos;
+
 import java.util.Random;
 import tp.modelo.*;
+
 public final class DatosIniciales {
     private DatosIniciales(){}
     /** Datos deterministas; -1 representa muro. */

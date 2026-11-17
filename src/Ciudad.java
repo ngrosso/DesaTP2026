@@ -5,18 +5,10 @@ public class Ciudad {
 
     //Constructores
     public Ciudad(int filas, int columnas){
-        if (filas<=0||columnas<=0) {
+        if (filas <= 0 || columnas <= 0) {
             throw new IllegalArgumentException("Dimensiones inválidas");
         } else {
-            for (int i = 0; i < filas; i++){
-                for (int j = 0; j < columnas; j++){
-                    if (i == 0 || i < filas - 1 || j == 0 || j < columnas - 1){
-                        sectores[i][j] = null;
-                    } else {
-                        sectores[i][j]
-                    }
-                }
-            }
+            sectores = new Sector[filas][columnas];
         }
     }
 
@@ -25,8 +17,8 @@ public class Ciudad {
         return sectores.length;
     }
 
-    public int getColumnas(int fila) {
-        return sectores[fila].length;
+    public int getColumnas() {
+        return sectores[0].length;
     }
 
     public boolean posicionValida(int fila, int columna) {
@@ -36,7 +28,7 @@ public class Ciudad {
             existe = false;
         }
 
-        existe;
+        return existe;
     }
 
     public Sector getSector(int fila, int columna){
@@ -48,28 +40,27 @@ public class Ciudad {
 
     public void modificar(int fila,int columna,Sector sector){
         // TO DO: validar posición y asignar nuevo tipo.
-        // Recordar que null representa muro.
 
-        if (posicionValida(fila, columna) && sectores[i][j] != null){
-            sectores[i][j] =
+        if (posicionValida(fila, columna) && sectores[fila][columna] != null){
+            sectores[fila][columna] = sector;
         }
     }
     public boolean esTransitable(int fila,int columna){
         boolean paso = true;
 
-        if (sectores[i][j] == null){
+        if (sectores[fila][columna] == null){
             paso = false;
         }
 
         return paso;
     }
 
-    public int contarTesoros(Sector[][] ){
+    public int contarTesoros(){
         int cont = 0;
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (sectores[i][j].esTesoro){
+                if (sectores[i][j].esTesoro()){
                     cont++;
                 }
             }
@@ -83,7 +74,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (sectores[i][j].esTrampa){
+                if (sectores[i][j].esTrampa()){
                     cont++;
                 }
             }
@@ -97,7 +88,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (sectores[i][j].getTipo == 1){
+                if (sectores[i][j] != null){
                     cont++;
                 }
             }
@@ -112,7 +103,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTesoro(sectores[i][j])){
+                if (sectores[i][j].esTesoro()){
                     cont++;
                 }
             }
@@ -129,7 +120,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTesoro(sectores[j][i])){
+                if (sectores[j][i].esTesoro()){
                     cont++;
                 }
             }
@@ -141,14 +132,12 @@ public class Ciudad {
     }
 
     public int[] trampasPorFila(){
-        //Devuelve un arreglo con la cantidad de trampas por fila
-
         int[] arr = new int[sectores.length];
         int cont = 0;
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTrampa(sectores[i][j])){
+                if (sectores[i][j].esTrampa()){
                     cont++;
                 }
             }
@@ -160,14 +149,12 @@ public class Ciudad {
     }
 
     public int[] trampasPorColumna(){
-        //Devuelve un arreglo con la cantidad de trampas por columna
-
         int[] arr = new int[sectores[0].length];
         int cont = 0;
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTrampa(sectores[j][i])){
+                if (sectores[j][i].esTrampa()){
                     cont++;
                 }
             }
@@ -186,7 +173,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTesoro(sectores[i][j])){
+                if (sectores[i][j].esTesoro()){
                     cont++;
                 }
             }
@@ -207,7 +194,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++){
             for (int j = 0; j < sectores[i].length; j++){
-                if (esTesoro(sectores[j][i])){
+                if (sectores[j][i].esTesoro()){
                     cont++;
                 }
             }
@@ -221,7 +208,6 @@ public class Ciudad {
         return ind;
     }
 
-
     public void  mostrarMapa(){
         //Imprime por pantalla la matriz de la ciudad
         //Ver que métodos ya existentes pueden utilizar y completar lo que falte.
@@ -232,7 +218,7 @@ public class Ciudad {
                 if (sectores[i][j] == null){
                     System.out.print("⬛");
                 } else {
-                    System.out.print(sectores[i][j].getEmoji);
+                    System.out.print(sectores[i][j].getEmoji());
                 }
             }
             System.out.println();
@@ -241,6 +227,11 @@ public class Ciudad {
 
     public Ciudad clonar(){
         //Retorna una ciudad que es una copia de la ciudad actual.
+        Ciudad ciudadClon = new Ciudad(sectores.length, sectores[0].length);
+
+        ciudadClon.sectores = sectores;
+
+        return ciudadClon;
     }
 
     public void informeGeneral(){

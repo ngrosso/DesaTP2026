@@ -20,28 +20,29 @@ public class Sector {
         return this.valor;
     }
 
-    private String getEmoji(){
+    public String getEmoji(){
         String simbolo =
                 (this.getTipo() == 0) ? "🚩" :
                         (this.getTipo() == 1) ? "⬜" :
                                 (this.getTipo() == 2) ? "💎" : "⚠️";
+
         return simbolo;
     } //Devuelve un simbolo para cada sector. Ver donde lo pueden utilizar
 
-    public boolean esTesoro(Sector unSec){
+    public boolean esTesoro(){
         boolean iguales = false;
 
-        if (this.tipo == "💎"){
+        if (((this.getTipo() == 2) ? "💎" : "⚠️") == "💎"){
             iguales = true;
         }
 
         return iguales;
     }
 
-    public boolean esTrampa(Sector unSec){
+    public boolean esTrampa(){
         boolean iguales = false;
 
-        if (this.tipo == "⚠️"){
+        if (((this.getTipo() == 2) ? "💎" : "⚠️") == "⚠️"){
             iguales = true;
         }
 

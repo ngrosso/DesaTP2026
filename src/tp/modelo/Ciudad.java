@@ -1,6 +1,6 @@
 package tp.modelo;
 public class Ciudad {
-    private  Sector[][] sectores;
+    private Sector[][] sectores;
 
     public Ciudad(int filas,int columnas){
         if(filas<=0||columnas<=0)throw new IllegalArgumentException("Dimensiones inválidas");
