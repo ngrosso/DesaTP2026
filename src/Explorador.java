@@ -1,44 +1,32 @@
 package TPFinal;
 
 public class Explorador {
-    private int identificador;
-    private String nombre;
-    private Sector posicionActual;
-    private int tesorosRecoletados;
-    private int trampasEncontradas;
-    private int puntajeAcumulado;
+    private final int id;
+    private final String nombre;
+    private int fila, columna, tesorosRecoletados, trampasEncontradas, puntaje;
 
     //Constructores
-    public Explorador(int id, String nom, Sector posAc, int tesRec, int trampEnc, int punAcum){
-        this.identificador = id;
+    public Explorador(int id, String nom, int f, int c){
+        this.id = id;
         this.nombre = nom;
-        this.posicionActual = posAc;
-        this.tesorosRecoletados = tesRec;
-        this.trampasEncontradas = trampEnc;
-        this.puntajeAcumulado = punAcum;
-    }
-
-    public Explorador(int id){
-        this.identificador = id;
-        this.nombre = "";
-        this.posicionActual = null;
-        this.tesorosRecoletados = 0;
-        this.trampasEncontradas = 0;
-        this.puntajeAcumulado = 0;
+        this.fila = f;
+        this.columna = c;
     }
 
     //Observadores
-    public int getIdentificador(){
-        return this.identificador;
+    public int getId(){
+        return this.id;
     }
 
     public String getNombre() {
         return this.nombre;
     }
 
-    public Sector getPosicionActual() {
-        return this.posicionActual;
+    public int getFila() {
+        return this.fila;
     }
+
+    public int getColumna() {return columna;}
 
     public int getTesorosRecoletados() {
         return this.tesorosRecoletados;
@@ -48,77 +36,34 @@ public class Explorador {
         return this.trampasEncontradas;
     }
 
-    public int getPuntajeAcumulado() {
-        return this.puntajeAcumulado;
+    public int getPuntaje() {
+        return this.puntaje;
     }
 
-    public boolean equals(Explorador unExplorador){
-        boolean iguales = false;
 
-        if (this.identificador == unExplorador.identificador){
-            iguales = true;
-        }
+    //Propias del tipo
 
-        return iguales;
+    public void cambiarPosicion(int fila,int columna) {
+        this.fila=fila;
+        this.columna=columna;
     }
 
-    public String toString(Sector unSector){
-        return ("Datos del explotador: Id " + this.identificador + ", nombre "+ '"' + this.nombre + '"' +
-                ", tesoros recolectados " + this.tesorosRecoletados + ", trampas encontradas " + this.trampasEncontradas
-                + ", posicion actual(" + unSector.toString() + "), y puntaje acumulado " + this.puntajeAcumulado);
+    public void registrarTesoro(int recompensa) {
+        this.tesorosRecoletados += 1;
+        this.puntaje += recompensa;
+        throw new UnsupportedOperationException("TODO registrarTesoro");
     }
 
-    //Modificadores
-
-    public void setIdentificador(int id) {
-        this.identificador = id;
+    public void registrarTrampa(int penalizacion) {
+        this.trampasEncontradas += 1;
+        this.puntaje -= penalizacion;
+        throw new UnsupportedOperationException("TODO registrarTrampa");
     }
 
-    public void setNombre(String nom) {
-        this.nombre = nom;
+    public void reiniciarResultados() {
+        this.tesorosRecoletados = 0;
+        this.trampasEncontradas = 0;
+        this.puntaje = 0;
+        throw new UnsupportedOperationException("TODO reiniciarResultados");
     }
-
-    public void setPosicionActual(Sector posAc) {
-        this.posicionActual = posAc;
-    }
-
-    public void setTesorosRecoletados(int tesRec) {
-        this.tesorosRecoletados = tesRec;
-    }
-
-    public void setTrampasEncontradas(int trampEnc) {
-        this.trampasEncontradas = trampEnc;
-    }
-
-    public void setPuntajeAcumulado(int puntAcum) {
-        this.puntajeAcumulado = puntAcum;
-    }
-
-    //Propios del tipo
-    public void moverExplorador(Sector[][] mat, Sector ini, Explorador explo){
-        explo.setPosicionActual(ini);
-        boolean mover = false;
-        int i = 0, j = 0;
-
-        while (!mover && i < mat.length){
-            while (!mover && j < mat[i].length){
-                if (j == 0 || j == mat[i].length - 1){
-                    if (i == 0 || i == mat.length - 1){
-
-                    } else {
-
-                    }
-                } else {
-                    if (i == 0 || i == mat.length - 1){
-
-                    } else {
-
-                    }
-                }
-                j++;
-            }
-            j = 0;
-            i++;
-        }
-    } // Recursividad con recursividad (Que el llamado principal no termine y inicie un nuevo llamado recursivo)
 }

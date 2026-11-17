@@ -1,81 +1,50 @@
 package TPFinal;
 
 public class Sector {
-    private int identificador;
-    private String contenido;
-    private int distancia;
+    public static final int INICIO=0, LIBRE=1, TESORO=2, TRAMPA=3; //final significa que es una constante
+    private int tipo;
+    private int valor; // Recompensa positiva del tesoro o penalización positiva de la trampa.
 
     //Constructor
-    public Sector(int id, String cont, int dist){
-        this.identificador = id;
-        this.contenido = cont;
-        this.distancia = dist;
-    }
-
-    public Sector(int id){
-        this.identificador = id;
-        this.contenido = null;
-        this.distancia = 0;
+    public Sector(int tip, int val){
+        this.tipo = tip;
+        this.valor = val;
     }
 
     //Visualizadores
-    public int getIdentificador() {
-        return this.identificador;
+    public int getTipo() {
+        return this.tipo;
     }
 
-    public String getContenido() {
-        return this.contenido;
+    public int getValor(){
+        return this.valor;
     }
 
-    public int getDistancia(){
-        return this.distancia;
-    }
+    private String getEmoji(){
+        String simbolo =
+                (this.getTipo() == 0) ? "🚩" :
+                        (this.getTipo() == 1) ? "⬜" :
+                                (this.getTipo() == 2) ? "💎" : "⚠️";
+        return simbolo;
+    } //Devuelve un simbolo para cada sector. Ver donde lo pueden utilizar
 
-    public boolean equals(Sector unSector){
+    public boolean esTesoro(Sector unSec){
         boolean iguales = false;
 
-        if (this.identificador == unSector.identificador) {
+        if (this.tipo == "💎"){
             iguales = true;
         }
 
         return iguales;
     }
 
-    public String toString(){
-        return ("datosCelda: Id (" + this.identificador + "), contenido(" + this.contenido + "), y distacia del " +
-                "inicio (" + this.distancia + ")");
-    }
+    public boolean esTrampa(Sector unSec){
+        boolean iguales = false;
 
-    //Modificadores
-    public void setIdentificador(int id) {
-        this.identificador = id;
-    }
-
-    public void setContenido(String cont) {
-        this.contenido = cont;
-    }
-
-    public void setDistancia(int dist){
-        this.distancia = dist;
-    }
-
-    //Propios del tipo
-    public Sector generarCeldaRandom(Sector cel){
-        int aux = (int)(Math.random() * (8 - 1 + 1)) + 1;
-
-        switch (aux){
-            case 1:
-                cel.setContenido("Tesoro");
-                break;
-            case 2:
-                cel.setContenido("Trampa");
-                break;
-            case 3, 4, 5, 6:
-                cel.setContenido("Libre");
-                break;
-            default:
+        if (this.tipo == "⚠️"){
+            iguales = true;
         }
 
-        return cel;
+        return iguales;
     }
 }

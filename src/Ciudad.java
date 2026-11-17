@@ -1,196 +1,251 @@
 package TPFinal;
 
 public class Ciudad {
-    private String nombre;
-    private Sector celdaInicio;
-    private Sector[][] matrizCiudad;
+    private Sector[][] sectores;
 
     //Constructores
-    public Ciudad(String nom, Sector celIni, Sector[][] matCiu){
-        this.nombre = nom;
-        this.celdaInicio = celIni;
-        this.matrizCiudad = matCiu;
-    }
-
-    public Ciudad(String nom){
-        this.nombre = nom;
-        this.celdaInicio = null;
-        this.matrizCiudad = null;
+    public Ciudad(int filas, int columnas){
+        if (filas<=0||columnas<=0) {
+            throw new IllegalArgumentException("Dimensiones inválidas");
+        } else {
+            for (int i = 0; i < filas; i++){
+                for (int j = 0; j < columnas; j++){
+                    if (i == 0 || i < filas - 1 || j == 0 || j < columnas - 1){
+                        sectores[i][j] = null;
+                    } else {
+                        sectores[i][j]
+                    }
+                }
+            }
+        }
     }
 
     //Visualizadores
-    public String getNombre() {
-        return this.nombre;
+    public int getFilas() {
+        return sectores.length;
     }
 
-    public Sector getCeldaInicio() {
-        return this.celdaInicio;
+    public int getColumnas(int fila) {
+        return sectores[fila].length;
     }
 
-    public Sector[][] getMatrizCiudad() {
-        return this.matrizCiudad;
-    }
+    public boolean posicionValida(int fila, int columna) {
+        boolean existe = true;
 
-    public boolean equals(Ciudad unaCiudad){
-        boolean iguales = false;
-
-        if ((this.nombre).equals(unaCiudad.nombre)){
-            iguales = true;
+        if (-1 > fila || -1 > columna || fila > sectores.length || columna > sectores[fila].length){
+            existe = false;
         }
 
-        return iguales;
+        existe;
     }
 
-    public String toString(){
-        return ("Datos ciudad: nombre " + this.nombre + ", celda inicio " + this.celdaInicio + ", y matriz ciudad " +
-                this.matrizCiudad);
+    public Sector getSector(int fila, int columna){
+        if (!posicionValida(fila, columna)) {
+            throw new IndexOutOfBoundsException();
+        }
+        return sectores[fila][columna];
     }
 
-    //Modificadores
-    public void setNombre(String nom) {
-        this.nombre = nom;
-    }
+    public void modificar(int fila,int columna,Sector sector){
+        // TO DO: validar posición y asignar nuevo tipo.
+        // Recordar que null representa muro.
 
-    public void setCeldaInicio(Sector celIni) {
-        this.celdaInicio = celIni;
-    }
-
-    public void setMatrizCiudad(Sector[][] matCiu) {
-        this.matrizCiudad = matCiu;
-    }
-
-    //Propias del tipo
-    public void generarCiudad(Ciudad city ,int f, int c){
-        Sector[][] matriz = new Sector[f][c];
-        city.setMatrizCiudad(matriz);
-        int aux = 1;
-
-        for (int i = 0; i < f; i++){
-            for (int j = 0; j < c; j++){
-                Sector cel = new Sector(aux);
-                matriz[i][j] = cel.generarCeldaRandom(cel);
-                aux++;
-            }
+        if (posicionValida(fila, columna) && sectores[i][j] != null){
+            sectores[i][j] =
         }
     }
+    public boolean esTransitable(int fila,int columna){
+        boolean paso = true;
 
-    public void establecerInicio(Ciudad city){
-        Sector[][] matriz = city.getMatrizCiudad();
-        boolean inicio = false;
-        int i = 0, j = 0;
-
-        while (!inicio && i < matriz.length){
-            while (!inicio && j < matriz[i].length){
-                if (((matriz[i][j]).getContenido() == null) || ((matriz[i][j]).getContenido().equalsIgnoreCase("Libre"))){
-                    matriz[i][j].setContenido("Inicio");
-                    city.setCeldaInicio(matriz[i][j]);
-                    inicio = true;
-                }
-                j++;
-            }
-            j = 0;
-            i++;
-        }
-    }
-
-    public int calculoDistancia(Ciudad city, int f, int c){
-        Sector[][] matriz = city.getMatrizCiudad();
-        int i = 0, j = 0, dist = -1;
-        boolean encontrado = false;
-
-        while (!encontrado && i <= matriz.length - 1){
-            while (!encontrado && j <= matriz[i].length - 1){
-                if (f == i && c == j){
-                    encontrado = true;
-                    dist = i + j;
-                }
-                j++;
-            }
-            j = 0;
-            i++;
+        if (sectores[i][j] == null){
+            paso = false;
         }
 
-        return dist;
+        return paso;
     }
 
-    public int calcularContenido(Sector[][] matriz, String cont){
-        int contador = 0;
+    public int contarTesoros(Sector[][] ){
+        int cont = 0;
 
-        for (int i = 0; i < matriz.length; i++){
-            for (int j = 0; j < matriz[i].length; j++){
-                if (matriz[i][j].getContenido() != null && (matriz[i][j].getContenido()).equalsIgnoreCase(cont)){
-                    contador++;
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (sectores[i][j].esTesoro){
+                    cont++;
                 }
             }
         }
 
-        return contador;
-    }// debe devolver un arreglo
+        return cont;
+    }
 
-    public int calcularContenidoArr(Sector[] arr, String cont){
-        int contador = 0;
+    public int contarTrampas(){
+        int cont = 0;
 
-        for (int i = 0; i < arr.length; i++){
-            if (arr[i].getContenido() != null && (arr[i].getContenido()).equalsIgnoreCase(cont)){
-                contador++;
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (sectores[i][j].esTrampa){
+                    cont++;
+                }
             }
         }
 
-        return contador;
+        return cont;
     }
 
-    public void informeGeneral(Sector[][] matriz){
-        int tramps = calcularContenido(matriz, "Trampa"), tesoros = calcularContenido(matriz, "Tesoro"),
-                cLibres = calcularContenido(matriz, "Libre");
+    public int contarTransitables(){
+        int cont = 0;
 
-        System.out.println("La cantidad de trampas en la ciudad es " + tramps);
-        System.out.println("La cantidad de tesoros en la ciudad es " + tesoros);
-        System.out.println("La cantidad de celdas libres en la ciudad es " + cLibres);
-        System.out.println("La cantidad de paredes en la ciudad es " + ((matriz.length * matriz.length) -
-                (tesoros + tramps + cLibres + 1)));
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (sectores[i][j].getTipo == 1){
+                    cont++;
+                }
+            }
+        }
+
+        return cont;
     }
 
-    public void cambioCelda(Sector[][] matriz, int i, int j, String contNuevo){
-        System.out.println();
-        System.out.println("El contenido de la celda numero " + matriz[i][j].getIdentificador() + ", pasa de " +
-                matriz[i][j].getContenido() + " a " + contNuevo);
-        matriz[i][j].setContenido(contNuevo);
+    public int[] tesorosPorFila(){
+        int[] arr = new int[sectores.length];
+        int cont = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTesoro(sectores[i][j])){
+                    cont++;
+                }
+            }
+            arr[i] = cont;
+            cont = 0;
+        }
+
+        return arr;
     }
 
-    public void recorrerCiudad(Sector[][] mat){
-        for (int i = 0; i < mat.length; i++){
-            for (int j = 0; j < mat[i].length; j++){
-                System.out.printf("%10s", mat[i][j].getContenido());
+    public int[] tesorosPorColumna(){
+        int[] arr = new int[sectores[0].length];
+        int cont = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTesoro(sectores[j][i])){
+                    cont++;
+                }
+            }
+            arr[i] = cont;
+            cont = 0;
+        }
+
+        return arr;
+    }
+
+    public int[] trampasPorFila(){
+        //Devuelve un arreglo con la cantidad de trampas por fila
+
+        int[] arr = new int[sectores.length];
+        int cont = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTrampa(sectores[i][j])){
+                    cont++;
+                }
+            }
+            arr[i] = cont;
+            cont = 0;
+        }
+
+        return arr;
+    }
+
+    public int[] trampasPorColumna(){
+        //Devuelve un arreglo con la cantidad de trampas por columna
+
+        int[] arr = new int[sectores[0].length];
+        int cont = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTrampa(sectores[j][i])){
+                    cont++;
+                }
+            }
+            arr[i] = cont;
+            cont = 0;
+        }
+
+        return arr;
+    }
+
+    /** En caso de empate devolver el índice menor; si no hay tesoros, devolver 0. */
+    public int filaConMasTesoros(){
+        //Devuelve el indice de la fila con mas tesoros
+
+        int cont = 0, contM = 0, ind = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTesoro(sectores[i][j])){
+                    cont++;
+                }
+            }
+            if (cont > contM){
+                contM = cont;
+                ind = i;
+            }
+            cont = 0;
+        }
+
+        return ind;
+    }
+
+    public int columnaConMasTesoros(){
+        //Devuelve el índice de la columna con mas tesoros
+
+        int cont = 0, contM = 0, ind = 0;
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (esTesoro(sectores[j][i])){
+                    cont++;
+                }
+            }
+            if (cont > contM){
+                contM = cont;
+                ind = i;
+            }
+            cont = 0;
+        }
+
+        return ind;
+    }
+
+
+    public void  mostrarMapa(){
+        //Imprime por pantalla la matriz de la ciudad
+        //Ver que métodos ya existentes pueden utilizar y completar lo que falte.
+        //Por si lo necesitan: un emoji para los muros: "⬛"
+
+        for (int i = 0; i < sectores.length; i++){
+            for (int j = 0; j < sectores[i].length; j++){
+                if (sectores[i][j] == null){
+                    System.out.print("⬛");
+                } else {
+                    System.out.print(sectores[i][j].getEmoji);
+                }
             }
             System.out.println();
         }
     }
 
-    public void filaYColumnaMayorTesoro(Sector[][] mat){
-        int min1 = 0, min2 = 0, max1 = 0, max2 = 0, indF = -1, indC = -1;
+    public Ciudad clonar(){
+        //Retorna una ciudad que es una copia de la ciudad actual.
+    }
 
-        for (int i = 0; i < mat.length; i++){
-            for (int j = 0; j < mat[i].length; j++){
-                if ((mat[i][j].getContenido()) != null && (mat[i][j].getContenido()).equalsIgnoreCase("Tesoro")){
-                    max1++;
-                }
-                if ((mat[j][i].getContenido()) != null && (mat[j][i].getContenido()).equalsIgnoreCase("Tesoro")){
-                    max2++;
-                }
-                if (max2 > min2){
-                    min2 = max2;
-                    indC = j;
-                }
-            }
-            if (max1 > min1){
-                min1 = max1;
-                indF = i;
-            }
-            max1 = 0;
-            max2 = 0;
-        }
-
-        System.out.println("La fila con mayor cantidad de tesoros es la " + indF + " con " + min1 + " tesoros");
-        System.out.println("La columna con mayor cantidad de tesoros es la " + indC + " con " + min2 + " tesoros");
+    public void informeGeneral(){
+        System.out.println("La cantidad de tesoros en la ciudad es de " + contarTesoros());
+        System.out.println("La cantidad de trampas en la ciudad es de " + contarTrampas());
+        System.out.println("La cantidad de celdas transitables en la ciudad es de " + contarTransitables());
     }
 }

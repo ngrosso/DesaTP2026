@@ -6,6 +6,7 @@ public class Expedicion {
         this.id=id;this.exploradorId=exploradorId;this.tesorosRecuperados=tesorosRecuperados;
         this.celdasVisitadas=celdasVisitadas;this.puntaje=puntaje;this.tiempoNanos=tiempoNanos;
     }
+
     public int getId(){return id;}
     public int getExploradorId(){return exploradorId;}
     public int getTesorosRecuperados(){return tesorosRecuperados;}
