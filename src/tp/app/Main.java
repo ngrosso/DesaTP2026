@@ -1,11 +1,10 @@
 package tp.app;
 
-import tp.modelo.*;
-import tp.datos.DatosIniciales;
-import tp.algoritmos.*;
-
-import java.util.Random;
 import java.util.Scanner;
+
+import tp.modelo.Ciudad;
+import tp.modelo.Expedicion;
+import tp.modelo.Explorador;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,29 +28,34 @@ public class Main {
                     ciudad.informeGeneral();
                     break;
                 case 3:
-                    //Ejemplo de llamada, podria cambiar
-                    System.out.println("Tesoros: ".explorar(ciudad, explorador, 1).getTesorosRecuperados());
+                    // Ejemplo de llamada, podria cambiar
+                    // System.out.println("Tesoros: "+explorar(ciudad, exploradores,1).getTesorosRecuperados());
+                    System.out.println("WIP");
                     break;
                 case 4:
-                    //COMPLETAR
+                    // COMPLETAR
                     break;
-
                 case 0:
                     System.out.println("Fin");
                     break;
                 default:
                     System.out.println("Opción inválida");
             }
-        }
-        while (opcion != 0);
+        } while (opcion != 0);
     }
 
     public static Ciudad crearCiudad() {
-        /* COMPLETAR */
+        int filas = (int) (Math.random() * 20) + 2;
+        int columnas = (int) (Math.random() * 20) + 2;
+        Ciudad ciudad = new Ciudad(filas, columnas);
+        // COMPLETAR
+        return ciudad;
     }
 
     public static Explorador[] crearExploradores() {
-        //COMPLETAR
+        return null;
+        // COMPLETAR
+
     }
 
     public static Expedicion explorar(Ciudad ciudad, Explorador explorador, int idExpedicion) {
@@ -63,10 +67,9 @@ public class Main {
     /**
      * El auxiliar debe incluir casos base y cuatro llamadas recursivas.
      */
-    private static int explorarDesde(Ciudad ciudad, Explorador explorador, boolean[][] visitadas, int fila, int columna, int[] contadorVisitadas) {
+    private static int explorarDesde(Ciudad ciudad, Explorador explorador, boolean[][] visitadas, int fila, int columna,
+            int[] contadorVisitadas) {
         // TODO: contar tesoros, registrar trampas y contar celdas visitadas.
         throw new UnsupportedOperationException("TODO explorarDesde");
     }
 }
-
-
