@@ -1,7 +1,11 @@
 package tp.datos;
 
 import java.util.Random;
-import tp.modelo.*;
+
+import tp.modelo.Ciudad;
+import tp.modelo.Expedicion;
+import tp.modelo.Explorador;
+import tp.modelo.Sector;
 
 public final class DatosIniciales {
     private DatosIniciales(){}
@@ -92,8 +96,10 @@ public final class DatosIniciales {
 
     public static Expedicion[] crearExpediciones(int cantidad,long semilla){
         if(cantidad<0)throw new IllegalArgumentException();
-        Random r=new Random(semilla);Expedicion[] datos=new Expedicion[cantidad];
-        for(int i=0;i<cantidad;i++)datos[i]=new Expedicion(i+1,1,r.nextInt(50),r.nextInt(200)+1,r.nextInt(500)-100,r.nextInt(1000000)+1);
+        Random r=new Random(semilla);
+        Expedicion[] datos=new Expedicion[cantidad];
+        for(int i=0;i<cantidad;i++)
+            datos[i]=new Expedicion(i+1,1,r.nextInt(50),r.nextInt(200)+1,r.nextInt(500)-100,r.nextInt(1000000)+1);
         return datos;
     }
 }
