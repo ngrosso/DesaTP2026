@@ -197,7 +197,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[i][j].esTesoro()) {
+                if (sectores[j][i] != null && sectores[i][j].esTesoro()) {
                     cont++;
                 }
             }
