@@ -11,6 +11,9 @@ public class Explorador {
         this.nombre = nom;
         this.fila = f;
         this.columna = c;
+        this.tesorosRecoletados = 0;
+        this.trampasEncontradas = 0;
+        this.puntaje = 0;
     }
 
     // Observadores
@@ -52,19 +55,16 @@ public class Explorador {
     public void registrarTesoro(int recompensa) {
         this.tesorosRecoletados += 1;
         this.puntaje += recompensa;
-        throw new UnsupportedOperationException("TODO registrarTesoro");
     }
 
     public void registrarTrampa(int penalizacion) {
         this.trampasEncontradas += 1;
         this.puntaje -= penalizacion;
-        throw new UnsupportedOperationException("TODO registrarTrampa");
     }
 
     public void reiniciarResultados() {
         this.tesorosRecoletados = 0;
         this.trampasEncontradas = 0;
         this.puntaje = 0;
-        throw new UnsupportedOperationException("TODO reiniciarResultados");
     }
 }

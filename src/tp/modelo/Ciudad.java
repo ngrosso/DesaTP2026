@@ -20,7 +20,7 @@ public class Ciudad {
                         } else {
                             tipo = 1;
                         }
-                        if(inicio){
+                        if (inicio) {
                             inicio = false;
                             tipo = 0;
                         }
@@ -43,12 +43,12 @@ public class Ciudad {
     }
 
     public boolean posicionValida(int fila, int columna) {
-        boolean existe = true;
-
-        if (-1 > fila || -1 > columna || fila > sectores.length || columna > sectores[fila].length) {
-            existe = false;
+        boolean existe = false;
+        if (sectores != null && fila >= 0 && fila < sectores.length) {
+            if (columna >= 0 && columna < sectores[fila].length) {
+                existe = true;
+            }
         }
-
         return existe;
     }
 
@@ -68,10 +68,10 @@ public class Ciudad {
     }
 
     public boolean esTransitable(int fila, int columna) {
-        boolean paso = true;
+        boolean paso = false;
 
-        if (sectores[fila][columna] == null) {
-            paso = false;
+        if (posicionValida(fila, columna) && sectores[fila][columna] != null) {
+            paso = true;
         }
 
         return paso;
@@ -242,7 +242,11 @@ public class Ciudad {
                 if (sectores[i][j] == null) {
                     System.out.print("⬛");
                 } else {
-                    System.out.print(sectores[i][j].getEmoji());
+                    if(sectores[i][j].getTipo() == 3){
+                        System.out.print(sectores[i][j].getEmoji()+" ");
+                    }else{
+                        System.out.print(sectores[i][j].getEmoji());
+                    }
                 }
             }
             System.out.println();

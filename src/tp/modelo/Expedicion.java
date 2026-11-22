@@ -37,4 +37,13 @@ public class Expedicion {
     public long getTiempoNanos() {
         return tiempoNanos;
     }
+
+    public String toString() {
+        return "id:" + this.id +
+                " | exploradorId:" + this.exploradorId +
+                " | tesorosRecuperados:" + this.tesorosRecuperados +
+                " | celdasVisitadas:" + this.celdasVisitadas +
+                " | puntaje:" + this.puntaje +
+                " | tiempoNanos:" + this.tiempoNanos;
+    }
 }
