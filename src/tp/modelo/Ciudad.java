@@ -82,7 +82,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[i][j].esTesoro()) {
+                if (sectores[i][j] != null && sectores[i][j].esTesoro()) {
                     cont++;
                 }
             }
@@ -96,7 +96,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[i][j].esTrampa()) {
+                if (sectores[i][j] != null && sectores[i][j].esTrampa()) {
                     cont++;
                 }
             }
@@ -125,7 +125,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[i][j].esTesoro()) {
+                if (sectores[i][j] != null && sectores[i][j].esTesoro()) {
                     cont++;
                 }
             }
@@ -142,7 +142,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i].esTesoro()) {
+                if (sectores[j][i] != null && sectores[j][i].esTesoro()) {
                     cont++;
                 }
             }
@@ -159,7 +159,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[i][j].esTrampa()) {
+                if (sectores[i][j] != null && sectores[i][j].esTrampa()) {
                     cont++;
                 }
             }
@@ -176,7 +176,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i].esTrampa()) {
+                if (sectores[j][i] != null && sectores[j][i].esTrampa()) {
                     cont++;
                 }
             }
@@ -218,7 +218,7 @@ public class Ciudad {
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i].esTesoro()) {
+                if (sectores[j][i] != null && sectores[j][i].esTesoro()) {
                     cont++;
                 }
             }
