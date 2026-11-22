@@ -110,33 +110,35 @@ public class Main {
      */
     private static int explorarDesde(Ciudad ciudad, Explorador explorador, boolean[][] visitadas, int fila, int columna,
             int[] contadorVisitadas) {
+
         // TODO: contar tesoros, registrar trampas y contar celdas visitadas.
-        if (!ciudad.esTransitable(fila, columna) || visitadas[fila][columna]) {
-            return 0;
-        }
-
-        visitadas[fila][columna] = true;
-        contadorVisitadas[0]++;
-        System.out.println("[Visitas] Fila: " + fila + " Columna: " + columna);
-
         int tesorosEncontrados = 0;
-        Sector sector = ciudad.getSector(fila, columna);
-        if (sector != null) {
-            if (sector.esTesoro()) {
-                tesorosEncontrados = 1;
-                explorador.registrarTesoro(sector.getValor());
-            } else if (sector.esTrampa()) {
-                explorador.registrarTrampa(sector.getValor());
+        if (!ciudad.esTransitable(fila, columna) || visitadas[fila][columna]) {
+            tesorosEncontrados = 0;
+        }else{
+            visitadas[fila][columna] = true;
+            contadorVisitadas[0]++;
+            System.out.println("[Visitas] Fila: " + fila + " Columna: " + columna);
+    
+            
+            Sector sector = ciudad.getSector(fila, columna);
+            if (sector != null) {
+                if (sector.esTesoro()) {
+                    tesorosEncontrados = 1;
+                    explorador.registrarTesoro(sector.getValor());
+                } else if (sector.esTrampa()) {
+                    explorador.registrarTrampa(sector.getValor());
+                }
             }
+    
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila - 1, columna, contadorVisitadas); //Arriba
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila + 1, columna, contadorVisitadas); //Abajo
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna - 1, contadorVisitadas); //Izquierda
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna + 1, contadorVisitadas); //Derecha
+    
+            System.out.println("[Vuelve de] Fila: " + fila + " Columna: " + columna);
         }
 
-        tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila - 1, columna, contadorVisitadas);
-        tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila + 1, columna, contadorVisitadas);
-        tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna - 1, contadorVisitadas);
-        tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna + 1, contadorVisitadas);
-
-        System.out.println("[Vuelve de] Fila: " + fila + " Columna: " + columna);
-        
         return tesorosEncontrados;
     }
 }
