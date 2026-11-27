@@ -12,15 +12,15 @@ public final class Ordenamientos {
         int aux = 0;
 
         switch (criterio){
-            case 1:
+            case PUNTAJE:
                 if (a.getPuntaje() == b.getPuntaje()){
-                    if (a.getId() > b.getId()){
+                    if (a.getId() < b.getId()){
                         aux = 1;
                     } else {
                         aux = -1;
                     }
                 } else {
-                    if (a.getPuntaje() > b.getPuntaje()){
+                    if (a.getPuntaje() < b.getPuntaje()){
                         aux = 1;
                     } else {
                         aux = -1;
@@ -28,15 +28,15 @@ public final class Ordenamientos {
                 }
                 break;
 
-            case 2:
+            case TESOROS:
                 if (a.getTesorosRecuperados() == b.getTesorosRecuperados()){
-                    if (a.getId() > b.getId()){
+                    if (a.getId() < b.getId()){
                         aux = 1;
                     } else {
                         aux = -1;
                     }
                 } else {
-                    if (a.getTesorosRecuperados() > b.getTesorosRecuperados()){
+                    if (a.getTesorosRecuperados() < b.getTesorosRecuperados()){
                         aux = 1;
                     } else {
                         aux = -1;
@@ -44,7 +44,7 @@ public final class Ordenamientos {
                 }
                 break;
 
-            case 3:
+            case TIEMPO:
                 if (a.getTiempoNanos() == b.getTiempoNanos()){
                     if (a.getId() < b.getId()){
                         aux = 1;
@@ -60,7 +60,7 @@ public final class Ordenamientos {
                 }
                 break;
 
-            case 4:
+            case CELDAS:
                 if (a.getCeldasVisitadas() == b.getCeldasVisitadas()){
                     if (a.getId() < b.getId()){
                         aux = 1;
@@ -77,6 +77,7 @@ public final class Ordenamientos {
                 break;
 
             default:
+                System.out.println("Criterio invalido");
                 break;
         }
 
@@ -85,45 +86,22 @@ public final class Ordenamientos {
 
     /** Ordenar in-place; elegir un algoritmo de fuerza bruta. */
     public static void ordenarFuerzaBruta(Expedicion[] datos,int criterio){ //Inserccion
-        int[] arr = new int[datos.length];
+        Expedicion indice;
+        int j;
 
-        switch (criterio){
-            case 1:
-                for (int i = 0; i < datos.length; i++){
-                    arr[i] = datos[i].getPuntaje();
-                }
-
-                break;
-
-            case 2:
-                for (int i = 0; i < datos.length; i++){
-                    arr[i] = datos[i].getTesorosRecuperados();
-                }
-
-                break;
-
-            case 3:
-                for (int i = 0; i < datos.length; i++){
-                    //arr[i] = datos[i].getTiempoNanos();
-                }
-
-                break;
-
-            case 4:
-                for (int i = 0; i < datos.length; i++){
-                    arr[i] = datos[i].getCeldasVisitadas();
-                }
-
-                break;
-
-            default:
-
-                break;
+        System.out.println("Antes de ordenar");
+        mostrarArreglo(datos);
+        for (int i = 1; i < datos.length; i++){
+            indice = datos[i];
+            j = i - 1;
+            while (j >= 0 && comparar(indice, datos[j], criterio) != 0){
+                datos[j + 1] = datos[j];
+                j = j - 1;
+            }
+            datos[j + 1] = indice;
         }
-
-        insertion(arr);
-
-        throw new UnsupportedOperationException("TODO ordenarFuerzaBruta");
+        System.out.println("Despues de ordenar");
+        mostrarArreglo(datos);
     }
 
     /** Ordenar in-place; elegir Heap Sort, Quick Sort o Merge Sort. */
@@ -131,28 +109,28 @@ public final class Ordenamientos {
         int[] arr = new int[datos.length];
 
         switch (criterio){
-            case 1:
+            case PUNTAJE:
                 for (int i = 0; i < datos.length; i++){
                     arr[i] = datos[i].getPuntaje();
                 }
 
                 break;
 
-            case 2:
+            case TESOROS:
                 for (int i = 0; i < datos.length; i++){
                     arr[i] = datos[i].getTesorosRecuperados();
                 }
 
                 break;
 
-            case 3:
+            case TIEMPO:
                 for (int i = 0; i < datos.length; i++){
                     //arr[i] = datos[i].getTiempoNanos();
                 }
 
                 break;
 
-            case 4:
+            case CELDAS:
                 for (int i = 0; i < datos.length; i++){
                     arr[i] = datos[i].getCeldasVisitadas();
                 }
@@ -160,27 +138,24 @@ public final class Ordenamientos {
                 break;
 
             default:
-
-
+                System.out.println("Criterio invalido");
                 break;
         }
 
         mergeSort(arr, 0, arr.length);
-
-        throw new UnsupportedOperationException("TODO ordenarDivideVenceras");
     }
 
-    public static void insertion(int[] A) {
-        for (int i = 1; i < A.length; i++) {
-            int key = A[i];
+    /*public static void insertion(int[] arr, Expedicion[] arrE) {
+        for (int i = 1; i < arr.length; i++) {
+            int key = arr[i];
             int j = i - 1;
-            while (j >= 0 && A[j] > key) {
-                A[j + 1] = A[j];
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
                 j = j - 1;
             }
-            A[j + 1] = key;
+            arr[j + 1] = key;
         }
-    }
+    }*/
 
     public static void mergeSort(int[] A, int izq, int der) {
         if (izq < der) {
@@ -229,6 +204,12 @@ public final class Ordenamientos {
             A[k] = R[j];
             j++;
             k++;
+        }
+    }
+
+    public static void mostrarArreglo(Expedicion[] arr){
+        for (int i = 0; i < arr.length; i++){
+            System.out.println(arr[i]);
         }
     }
 }

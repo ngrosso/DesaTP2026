@@ -61,8 +61,7 @@ public class Ciudad {
 
     public void modificar(int fila, int columna, Sector sector) {
         // TO DO: validar posición y asignar nuevo tipo.
-
-        if (posicionValida(fila, columna) && sectores[fila][columna] != null) {
+        if (posicionValida(fila, columna)) {
             sectores[fila][columna] = sector;
         }
     }
@@ -243,7 +242,7 @@ public class Ciudad {
                     System.out.print("⬛");
                 } else {
                     if(sectores[i][j].getTipo() == 3){
-                        System.out.print(sectores[i][j].getEmoji()+" ");
+                        System.out.print(sectores[i][j].getEmoji());
                     }else{
                         System.out.print(sectores[i][j].getEmoji());
                     }
@@ -268,3 +267,4 @@ public class Ciudad {
         System.out.println("La cantidad de celdas transitables en la ciudad es de " + contarTransitables());
     }
 }
+
