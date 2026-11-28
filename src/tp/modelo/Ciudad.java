@@ -270,8 +270,12 @@ public class Ciudad {
         // Retorna una ciudad que es una copia de la ciudad actual.
         Ciudad ciudadClon = new Ciudad(sectores.length, sectores[0].length);
 
-        ciudadClon.sectores = sectores;
+        for (int i = 0; i < ciudadClon.getFilas(); i++) {
+            for (int j = 0; j < ciudadClon.getColumnas(); j++) {
+                ciudadClon.modificar(i, j, this.getSector(i, j));
+            }
 
+        }
         return ciudadClon;
     }
 
@@ -279,10 +283,14 @@ public class Ciudad {
         System.out.println("La cantidad de tesoros en la ciudad es de " + contarTesoros());
         System.out.println("La cantidad de trampas en la ciudad es de " + contarTrampas());
         System.out.println("La cantidad de celdas transitables en la ciudad es de " + contarTransitables());
-        System.out.print("Tesoros por Fila: ");mostrarArregloConteo(tesorosPorFila());
-        System.out.print("Tesoros por Columna: ");mostrarArregloConteo(tesorosPorColumna());
-        System.out.print("Trampas por Fila: ");mostrarArregloConteo(trampasPorFila());
-        System.out.print("Trampas por Columna: ");mostrarArregloConteo(trampasPorColumna());
+        System.out.print("Tesoros por Fila: ");
+        mostrarArregloConteo(tesorosPorFila());
+        System.out.print("Tesoros por Columna: ");
+        mostrarArregloConteo(tesorosPorColumna());
+        System.out.print("Trampas por Fila: ");
+        mostrarArregloConteo(trampasPorFila());
+        System.out.print("Trampas por Columna: ");
+        mostrarArregloConteo(trampasPorColumna());
         System.out.println("La fila con mas tesoros es: " + filaConMasTesoros());
         System.out.println("La columna con mas tesoros es: " + columnaConMasTesoros());
     }

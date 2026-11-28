@@ -19,7 +19,7 @@ public class Main {
         int opcion = -1, opcion2 = -1, opcion3 = -1, fila, columna, tipo;
 
         do {
-            System.out.println("\n1. Mostrar Mapa  2. Informe  3. Explorar  4. Ordenar  5. Modificar  0. Salir");
+            System.out.println("\n1. Mostrar Mapa  2. Informe  3. Explorar  4. Ordenar  5. Modificar  6. Clonar y mostrar ciudad  0. Salir");
             System.out.print("Opción: ");
             if (!teclado.hasNextInt()) {
                 teclado.nextLine();
@@ -176,6 +176,10 @@ public class Main {
                     }
                     ciudad.modificar(fila, columna, sector);
 
+                    break;
+                case 6:
+                    Ciudad ciudadClon = ciudad.clonar();
+                    ciudadClon.mostrarMapa();
                     break;
                 case 0:
                     System.out.println("Fin");
