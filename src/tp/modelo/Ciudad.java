@@ -136,20 +136,26 @@ public class Ciudad {
     }
 
     public int[] tesorosPorColumna() {
-        int[] arr = new int[sectores[0].length];
-        int cont = 0;
+        int[] contPorCol = new int[0];
 
-        for (int i = 0; i < sectores.length; i++) {
-            for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i] != null && sectores[j][i].esTesoro()) {
-                    cont++;
+        if (sectores != null && sectores.length > 0 && sectores[0].length > 0) {
+            int cantCols = sectores[0].length;
+            contPorCol = new int[cantCols];
+
+            for (int col = 0; col < cantCols; col++) {
+                int contTesoros = 0;
+
+                for (int fila = 0; fila < sectores.length; fila++) {
+                    if (sectores[fila][col] != null && sectores[fila][col].esTesoro()) {
+                        contTesoros++;
+                    }
                 }
+
+                contPorCol[col] = contTesoros;
             }
-            arr[i] = cont;
-            cont = 0;
         }
 
-        return arr;
+        return contPorCol;
     }
 
     public int[] trampasPorFila() {
@@ -170,33 +176,38 @@ public class Ciudad {
     }
 
     public int[] trampasPorColumna() {
-        int[] arr = new int[sectores[0].length];
-        int cont = 0;
+        int[] retorno;
+        if (sectores == null || sectores.length == 0 || sectores[0].length == 0) {
+            retorno = new int[0];
+        } else {
+            int cantCols = sectores[0].length;
+            int[] contPorCol = new int[cantCols];
 
-        for (int i = 0; i < sectores.length; i++) {
-            for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i] != null && sectores[j][i].esTrampa()) {
-                    cont++;
+            for (int col = 0; col < cantCols; col++) {
+                int contTrampas = 0;
+
+                for (int fila = 0; fila < sectores.length; fila++) {
+                    if (sectores[fila][col] != null && sectores[fila][col].esTrampa()) {
+                        contTrampas++;
+                    }
                 }
-            }
-            arr[i] = cont;
-            cont = 0;
-        }
 
-        return arr;
+                contPorCol[col] = contTrampas;
+            }
+            retorno = contPorCol;
+        }
+        return retorno;
     }
 
     /**
      * En caso de empate devolver el índice menor; si no hay tesoros, devolver 0.
      */
     public int filaConMasTesoros() {
-        // Devuelve el indice de la fila con mas tesoros
-
         int cont = 0, contM = 0, ind = 0;
 
         for (int i = 0; i < sectores.length; i++) {
             for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i] != null && sectores[i][j].esTesoro()) {
+                if (sectores[i][j] != null && sectores[i][j].esTesoro()) {
                     cont++;
                 }
             }
@@ -211,24 +222,27 @@ public class Ciudad {
     }
 
     public int columnaConMasTesoros() {
-        // Devuelve el índice de la columna con mas tesoros
+        int maxTesoros = 0;
+        int indColMax = 0;
 
-        int cont = 0, contM = 0, ind = 0;
+        if (sectores != null && sectores.length > 0 && sectores[0].length > 0) {
+            for (int col = 0; col < sectores[0].length; col++) {
+                int contTesoros = 0;
 
-        for (int i = 0; i < sectores.length; i++) {
-            for (int j = 0; j < sectores[i].length; j++) {
-                if (sectores[j][i] != null && sectores[j][i].esTesoro()) {
-                    cont++;
+                for (int fila = 0; fila < sectores.length; fila++) {
+                    if (sectores[fila][col] != null && sectores[fila][col].esTesoro()) {
+                        contTesoros++;
+                    }
+                }
+
+                if (contTesoros > maxTesoros) {
+                    maxTesoros = contTesoros;
+                    indColMax = col;
                 }
             }
-            if (cont > contM) {
-                contM = cont;
-                ind = i;
-            }
-            cont = 0;
         }
 
-        return ind;
+        return indColMax;
     }
 
     public void mostrarMapa() {
@@ -241,9 +255,9 @@ public class Ciudad {
                 if (sectores[i][j] == null) {
                     System.out.print("⬛");
                 } else {
-                    if(sectores[i][j].getTipo() == 3){
+                    if (sectores[i][j].getTipo() == 3) {
                         System.out.print(sectores[i][j].getEmoji());
-                    }else{
+                    } else {
                         System.out.print(sectores[i][j].getEmoji());
                     }
                 }
@@ -265,6 +279,26 @@ public class Ciudad {
         System.out.println("La cantidad de tesoros en la ciudad es de " + contarTesoros());
         System.out.println("La cantidad de trampas en la ciudad es de " + contarTrampas());
         System.out.println("La cantidad de celdas transitables en la ciudad es de " + contarTransitables());
+        System.out.print("Tesoros por Fila: ");mostrarArregloConteo(tesorosPorFila());
+        System.out.print("Tesoros por Columna: ");mostrarArregloConteo(tesorosPorColumna());
+        System.out.print("Trampas por Fila: ");mostrarArregloConteo(trampasPorFila());
+        System.out.print("Trampas por Columna: ");mostrarArregloConteo(trampasPorColumna());
+        System.out.println("La fila con mas tesoros es: " + filaConMasTesoros());
+        System.out.println("La columna con mas tesoros es: " + columnaConMasTesoros());
+    }
+
+    public static void mostrarArregloConteo(int[] arregloValores) {
+        if (arregloValores == null || arregloValores.length == 0) {
+            System.out.println(" (sin datos)");
+        } else {
+            System.out.print("[");
+            for (int i = 0; i < arregloValores.length; i++) {
+                if (i == arregloValores.length - 1)
+                    System.out.print(arregloValores[i]);
+                else
+                    System.out.print(arregloValores[i] + ",");
+            }
+            System.out.println("]");
+        }
     }
 }
-
