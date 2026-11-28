@@ -82,45 +82,43 @@ public final class Ordenamientos {
 
     /** Ordenar in-place; elegir un algoritmo de fuerza bruta. */
     public static void ordenarFuerzaBruta(Expedicion[] arrExpedicion, int criterio) {
-        if (arrExpedicion == null) {
-            return;
-        }
+        if (arrExpedicion != null) {
 
-        System.out.println("Antes de ordenar");
-        mostrarArreglo(arrExpedicion);
+            System.out.println("Antes de ordenar");
+            mostrarArreglo(arrExpedicion);
 
-        if (arrExpedicion.length > 1) {
-            for (int i = 1; i < arrExpedicion.length; i++) {
-                Expedicion expedicion = arrExpedicion[i];
-                int j = i - 1;
+            if (arrExpedicion.length > 1) {
+                for (int i = 1; i < arrExpedicion.length; i++) {
+                    Expedicion expedicion = arrExpedicion[i];
+                    int j = i - 1;
 
-                while (j >= 0 && comparar(expedicion, arrExpedicion[j], criterio) < 0) {
-                    arrExpedicion[j + 1] = arrExpedicion[j];
-                    j = j - 1;
+                    while (j >= 0 && comparar(expedicion, arrExpedicion[j], criterio) < 0) {
+                        arrExpedicion[j + 1] = arrExpedicion[j];
+                        j = j - 1;
+                    }
+                    arrExpedicion[j + 1] = expedicion;
                 }
-                arrExpedicion[j + 1] = expedicion;
             }
-        }
 
-        System.out.println("Despues de ordenar");
-        mostrarArreglo(arrExpedicion);
+            System.out.println("Despues de ordenar");
+            mostrarArreglo(arrExpedicion);
+        }
     }
 
     /** Ordenar in-place; elegir Heap Sort, Quick Sort o Merge Sort. */
     public static void ordenarDivideVenceras(Expedicion[] arrExpedicion, int criterio) {
-        if (arrExpedicion == null) {
-            return;
+        if (arrExpedicion != null) {
+            System.out.println("Antes de ordenar");
+            mostrarArreglo(arrExpedicion);
+
+            if (arrExpedicion.length > 1) {
+                mergeSort(arrExpedicion, 0, arrExpedicion.length - 1, criterio);
+            }
+
+            System.out.println("Despues de ordenar");
+            mostrarArreglo(arrExpedicion);
+
         }
-
-        System.out.println("Antes de ordenar");
-        mostrarArreglo(arrExpedicion);
-
-        if (arrExpedicion.length > 1) {
-            mergeSort(arrExpedicion, 0, arrExpedicion.length - 1, criterio);
-        }
-
-        System.out.println("Despues de ordenar");
-        mostrarArreglo(arrExpedicion);
     }
 
     public static void mergeSort(Expedicion[] arrExpedicion, int izq, int der, int criterio) {
