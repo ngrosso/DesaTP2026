@@ -2,11 +2,12 @@ package tp.app;
 
 import java.util.Scanner;
 
+import tp.algoritmos.Ordenamientos;
+import tp.datos.DatosIniciales;
 import tp.modelo.Ciudad;
 import tp.modelo.Expedicion;
 import tp.modelo.Explorador;
 import tp.modelo.Sector;
-import tp.algoritmos.Ordenamientos;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,16 +35,16 @@ public class Main {
                     break;
                 case 3:
                     // Ejemplo de llamada, podria cambiar
-                    for (int i = 0; i < exploradores.length; i++){
+                    for (int i = 0; i < exploradores.length; i++) {
                         expediciones[i] = explorar(ciudad, exploradores[i], i);
-                        if (expediciones[i].getCeldasVisitadas() != 0){
+                        if (expediciones[i].getCeldasVisitadas() != 0) {
                             System.out.println("Info de la expedicion: " + expediciones[i].toString());
                         }
                     }
                     break;
                 case 4:
                     Expedicion[] expedicionesClon = expediciones;
-                    if (expediciones != null){
+                    if (expediciones != null) {
                         do {
                             System.out.println("\n1. Insercion  2. Merge  0. Volver atras");
                             System.out.print("Opcion: ");
@@ -53,19 +54,20 @@ public class Main {
                             }
                             opcion3 = teclado.nextInt();
 
-                            switch (opcion3){
+                            switch (opcion3) {
                                 case 1:
                                     do {
                                         System.out.println("Elija el criterio para ordenar");
-                                        System.out.println("\n1. Puntaje  2. Tesoros  3. Tiempo  4. Celdas Recorridas  0. Volver");
+                                        System.out.println(
+                                                "\n1. Puntaje  2. Tesoros  3. Tiempo  4. Celdas Recorridas  0. Volver");
                                         System.out.print("Opcion: ");
                                         if (!teclado.hasNextInt()) {
                                             teclado.nextLine();
                                             continue;
                                         }
                                         opcion2 = teclado.nextInt();
-
-                                        switch (opcion2){
+                                        mostrarMetodoYCriterio(opcion3, opcion2);
+                                        switch (opcion2) {
                                             case 1:
                                                 Ordenamientos.ordenarFuerzaBruta(expedicionesClon, 1);
                                                 break;
@@ -89,14 +91,15 @@ public class Main {
                                 case 2:
                                     do {
                                         System.out.println("Elija el criterio para ordenar");
-                                        System.out.println("\n1. Puntaje  2. Tesoros  3. Tiempo  4. Celdas Recorridas  0. Volver");
+                                        System.out.println(
+                                                "\n1. Puntaje  2. Tesoros  3. Tiempo  4. Celdas Recorridas  0. Volver");
                                         System.out.print("Opcion: ");
                                         if (!teclado.hasNextInt()) {
                                             teclado.nextLine();
                                             continue;
                                         }
                                         opcion2 = teclado.nextInt();
-
+                                        mostrarMetodoYCriterio(opcion3, opcion2);
                                         switch (opcion2) {
                                             case 1:
                                                 Ordenamientos.ordenarDivideVenceras(expediciones, 1);
@@ -153,7 +156,7 @@ public class Main {
                     }
                     tipo = teclado.nextInt();
 
-                    switch (tipo){
+                    switch (tipo) {
                         case 0:
                             sector = null;
                             break;
@@ -177,37 +180,26 @@ public class Main {
                     System.out.println("Opción inválida");
             }
         } while (opcion != 0);
+        teclado.close();
     }
 
     public static Ciudad crearCiudad() {
-        int filas = (int) (Math.random() * 20) + 2;
-        int columnas = (int) (Math.random() * 20) + 2;
-        Ciudad ciudad = new Ciudad(5, 5);
-        // COMPLETAR
+        Ciudad ciudad = DatosIniciales.crearCiudad();
         return ciudad;
     }
 
     public static Explorador[] crearExploradores() {
-        Explorador[] exploradores = new Explorador[5];
-
-        exploradores[0] = new Explorador(1, "Indiana", 0, 0);
-        exploradores[1] = new Explorador(2, "Lara", 4, 4);
-        exploradores[2] = new Explorador(3, "Nathan", 1, 3);
-        exploradores[3] = new Explorador(4, "Elena", 2, 3);
-        exploradores[4] = new Explorador(5, "Alex", 0, 4);
-
+        Explorador[] exploradores = DatosIniciales.crearExploradores();
         return exploradores;
 
     }
 
     public static Expedicion explorar(Ciudad ciudad, Explorador explorador, int idExpedicion) {
-        // TODO: crear boolean[][] visitadas, medir con System.nanoTime(),
-        // llamar al auxiliar recursivo y construir Expedicion.
 
         if (ciudad == null || explorador == null) {
             throw new IllegalArgumentException("Ciudad y explorador no pueden ser nulos");
         }
-
+        explorador.reiniciarResultados();
         int[] contadorVisitadas = new int[1];
         long inicio = System.nanoTime();
         boolean[][] visitadas = new boolean[ciudad.getFilas()][ciudad.getColumnas()];
@@ -232,16 +224,15 @@ public class Main {
      * El auxiliar debe incluir casos base y cuatro llamadas recursivas.
      */
     private static int explorarDesde(Ciudad ciudad, Explorador explorador, boolean[][] visitadas, int fila, int columna,
-                                     int[] contadorVisitadas) {
+            int[] contadorVisitadas) {
 
-        // TODO: contar tesoros, registrar trampas y contar celdas visitadas.
         int tesorosEncontrados = 0;
         if (!ciudad.esTransitable(fila, columna) || visitadas[fila][columna]) {
             tesorosEncontrados = 0;
-        }else{
+        } else {
             visitadas[fila][columna] = true;
             contadorVisitadas[0]++;
-            System.out.println("[Visitas] Fila: " + fila + " Columna: " + columna);
+            // System.out.println("[Visitas] Fila: " + fila + " Columna: " + columna);
 
             Sector sector = ciudad.getSector(fila, columna);
             if (sector != null) {
@@ -253,14 +244,47 @@ public class Main {
                 }
             }
 
-            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila - 1, columna, contadorVisitadas); //Arriba
-            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila + 1, columna, contadorVisitadas); //Abajo
-            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna - 1, contadorVisitadas); //Izquierda
-            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna + 1, contadorVisitadas); //Derecha
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila - 1, columna, contadorVisitadas); // Arriba
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila + 1, columna, contadorVisitadas); // Abajo
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna - 1, contadorVisitadas); // Izquierda
+            tesorosEncontrados += explorarDesde(ciudad, explorador, visitadas, fila, columna + 1, contadorVisitadas); // Derecha
 
-            System.out.println("[Vuelve de] Fila: " + fila + " Columna: " + columna);
+            // System.out.println("[Vuelve de] Fila: " + fila + " Columna: " + columna);
         }
 
         return tesorosEncontrados;
+    }
+
+    public static void mostrarMetodoYCriterio(int metodo, int criterio) {
+        boolean volver = false;
+        String metodoStr = "", criterioStr = "";
+        switch (metodo) {
+            case 1:
+                metodoStr = "Insersion";
+                break;
+            case 2:
+                metodoStr = "Merge sort";
+            default:
+                break;
+        }
+        switch (criterio) {
+            case 1:
+                criterioStr = "Puntaje";
+                break;
+            case 2:
+                criterioStr = "Tesoros";
+                break;
+            case 3:
+                criterioStr = "Tiempo";
+                break;
+            case 4:
+                criterioStr = "Celdas Recorridas";
+                break;
+            default:
+                volver = true;
+                break;
+        }
+        if (!volver)
+            System.out.println("Metodo: " + metodoStr + " | Criterio: " + criterioStr);
     }
 }
