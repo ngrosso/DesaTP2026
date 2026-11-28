@@ -43,9 +43,13 @@ public class Main {
                     }
                     break;
                 case 4:
-                    Expedicion[] expedicionesClon = expediciones;
-                    if (expediciones != null) {
+
+                    if (expediciones != null && expediciones[0] != null) {
                         do {
+                            Expedicion[] expedicionesClon = new Expedicion[expediciones.length];
+                            for (int i = 0; i < expediciones.length; i++) {
+                                expedicionesClon[i] = expediciones[i];
+                            }
                             System.out.println("\n1. Insercion  2. Merge  0. Volver atras");
                             System.out.print("Opcion: ");
                             if (!teclado.hasNextInt()) {
@@ -102,16 +106,16 @@ public class Main {
                                         mostrarMetodoYCriterio(opcion3, opcion2);
                                         switch (opcion2) {
                                             case 1:
-                                                Ordenamientos.ordenarDivideVenceras(expediciones, 1);
+                                                Ordenamientos.ordenarDivideVenceras(expedicionesClon, 1);
                                                 break;
                                             case 2:
-                                                Ordenamientos.ordenarDivideVenceras(expediciones, 2);
+                                                Ordenamientos.ordenarDivideVenceras(expedicionesClon, 2);
                                                 break;
                                             case 3:
-                                                Ordenamientos.ordenarDivideVenceras(expediciones, 3);
+                                                Ordenamientos.ordenarDivideVenceras(expedicionesClon, 3);
                                                 break;
                                             case 4:
-                                                Ordenamientos.ordenarDivideVenceras(expediciones, 4);
+                                                Ordenamientos.ordenarDivideVenceras(expedicionesClon, 4);
                                                 break;
                                             case 0:
                                                 break;
